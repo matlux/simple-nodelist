@@ -12,7 +12,7 @@
 ;; preferable somewhere where you can specify an
 ;; "authorized_keys" for ssh
 
-(def ACCOUNT you-probably-did-not-set-me-right?)
+(def ACCOUNT "saasbook")
 
 (defn ls [session]
   (-> session
@@ -29,8 +29,8 @@
 (def service (compute/compute-service
               "node-list"
               :node-list [(node-list/make-node
-                           "my-mac" "local-group" "127.0.0.1" :os-x)]
-              :environment {:user {:username ACCOUNT :no-sudo true}}))
+                           "my-mac" "local-group" "127.0.0.1" :ubuntu :ssh-port 2222)]
+              :environment {:user {:username ACCOUNT :password "saasbook" :no-sudo true}}))
 ;; The above defaults to using .ssh/id_rsa as a private key
 ;; Otherwise it is also possible to specify a password using
 ;; :password <password> as key and value in the user map
@@ -45,7 +45,7 @@
            :phases {:list (phase/phase-fn (ls))
                     :file (phase/phase-fn (transfer))}
            :node-spec (core/node-spec
-                       :image {:os-family :os-x})))
+                       :image {:os-family :ubuntu})))
 
 (defn lift-all []
   (core/lift spec

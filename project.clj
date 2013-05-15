@@ -1,13 +1,32 @@
-(defproject simple-nodelist "1.0.0-SNAPSHOT"
-  :description "Example project for working with nodelist"
-  :dependencies [[org.clojure/clojure "1.2.1"]
-                 [org.clojure/clojure-contrib "1.2.0"]
-                 [org.cloudhoist/pallet "0.6.5-SNAPSHOT"]
-                 [org.jclouds.driver/jclouds-log4j "1.1.1"]
-                 [log4j/log4j "1.2.14"]]
-  :dev-dependencies [[swank-clojure "1.3.2"]]
-  :repositories {"sonatype"
-                 "https://oss.sonatype.org/content/repositories/releases"
-                 "sonatype-snapshots"
-                 "http://oss.sonatype.org/content/repositories/snapshots"}
+(defproject quickstart "0.1.0-SNAPSHOT"
+  :description "FIXME Pallet project for quickstart"
+  :dependencies [[org.clojure/clojure "1.4.0"]
+                 [org.cloudhoist/pallet "0.7.4"]
+                 [org.cloudhoist/pallet-jclouds "1.5.2"]
+                 ;; To get started we include all jclouds compute providers.
+                 ;; You may wish to replace this with the specific jclouds
+                 ;; providers you use, to reduce dependency sizes.
+                 [org.jclouds/jclouds-allblobstore "1.5.5"]
+                 [org.jclouds/jclouds-allcompute "1.5.5"]
+                 [org.jclouds.driver/jclouds-slf4j "1.5.5"
+                  ;; the declared version is old and can overrule the
+                  ;; resolved version
+                  :exclusions [org.slf4j/slf4j-api]]
+                 [org.jclouds.driver/jclouds-sshj "1.5.5"]
+                 [ch.qos.logback/logback-classic "1.0.9"]]
+  :dev-dependencies [[org.cloudhoist/pallet
+                      "0.7.4" :type "test-jar"]
+                     [org.cloudhoist/pallet-lein "0.5.2"]]
+  :profiles {:dev
+             {:dependencies
+              [[org.cloudhoist/pallet "0.7.4"
+                :classifier "tests"]]
+              :plugins
+              [[org.cloudhoist/pallet-lein "0.5.2"]]}
+             :leiningen/reply
+             {:dependencies [[org.slf4j/jcl-over-slf4j "1.7.2"]]
+              :exclusions [commons-logging]}}
+  :local-repo-classpath true
+  :repositories
+  {"sonatype" "https://oss.sonatype.org/content/repositories/releases/"}
   :main nodelist.main)
